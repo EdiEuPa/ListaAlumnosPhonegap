@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components-blue-basic-theme.css">
+    <link rel="stylesheet" href="list_with_header.css">
+    <link rel="stylesheet" href="sliding_menu.css">
+    <link rel="stylesheet" href="styles/app.css"/>
+    <link rel="stylesheet" href="css/content_menu.css"/>
+    <script src="js/jquery-1.11.3.js"></script>
+    <script src="lib/onsen/js/angular/angular.js"></script>
+    <script src="lib/onsen/js/onsenui.js"></script>
+     <script>
+     <script src="cordova.js"></script>
+      ons.bootstrap();
+      ons.ready(function() {
+        menu.openMenu();
+      });
+    </script>
+
+<script>
+    (function(){
+  'use strict';
+  var module = angular.module('app', ['onsen']);
+  module.controller('AppController', function($scope, $data) {
+    $scope.doSomething = function() {
+      setTimeout(function() {
+        alert('tappaed');
+      }, 100);
+    };
+  });
+  
+  module.controller('DetailController', function($scope, $data) {
+  
+  });
+  module.controller('MasterController', function($scope, $data) {
+   // $scope.items = $data.items;  
+           $.ajax({
+                    url : "http://www.empowerlabs.com/intellibanks/data/Sandbox/EdiEusebio/WebServiceEdi2.php",
+                    
+                    dataType : "json",
+                    type : "GET",
+                    success : function(model, data, jqxhr){
+                       
+                          $scope.items=model;
+                    },
+                    error:function(xhr, status, error){
+                     
+                    }
+                });
+    
+    
+  });
+  module.factory('$data', function() {
+      var data = {};
+    
+      return data;
+  });
+})();
+  </script>
+
+    
+
+
+
+  </head>
+  <body>
+<!--inicio de menu-->
+
+<ons-sliding-menu
+    menu-page="menu.html" main-page="page1.html" side="left"
+    var="menu" type="reveal" max-slide-distance="260px" swipable="true">
+  </ons-sliding-menu>
+
+  <ons-template id="menu.html">
+    <ons-page modifier="menu-page">
+      <ons-toolbar modifier="transparent"></ons-toolbar>
+
+      <ons-list class="menu-list">
+        <ons-list-item class="menu-item" ng-click="menu.toggle()">
+          <ons-icon icon="fa-bookmark"></ons-icon>
+          Consultar Alumnos
+        </ons-list-item>
+
+      
+
+       
+
+      
+    </ons-page>
+  </ons-template>
+
+
+<!--fin de menu-->
+  
+    
+<ons-template id="page1.html">
+    <ons-page>
+     <ons-toolbar>
+       <div class="left">
+       <ons-toolbar-button ng-click="menu.toggle()">
+        <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+       </ons-toolbar-button>
+       </div>
+       </br>
+       <div class="center"> Lista de Alumnos</div>
+     
+
+              
+     </ons-toolbar>
+         <ons-navigator var="navi">
+    <ons-page>
+    
+     <ons-list ng-controller="MasterController">
+        <ons-list-item modifier="chevron" class="item" ng-repeat="item in items" >
+          <ons-row>
+             <ons-col>
+              <header>
+                <span class="item-title">{{item.Nombre}}</span>
+                <p class="item-desc">{{item.APaterno}}</p>
+                <p class="item-desc">{{item.AMaterno}}</p>
+                <p class="item-desc">{{item.Carrera}}</p>
+                <p class="item-desc">{{item.Tel}}</p>
+                <p class="item-desc">{{item.Date}}</p>
+              </header>
+              
+              </ons-col>
+          </ons-row>                          
+        </ons-list-item>
+      </ons-list>
+    </ons-page>
+  </ons-navigator>
+              <!--
+        <ons-list-item modifier="chevron">Apellido PAterno</ons-list-item>
+        <ons-list-item modifier="chevron">Apellido Materno</ons-list-item>
+        <ons-list-item modifier="chevron">Carrera</ons-list-item>
+        <ons-list-item modifier="chevron">Telefono</ons-list-item>
+        <ons-list-item modifier="chevron">Fecha</ons-list-item>
+        -->
+
+
+       <!-- <ons-list-header>Mac OS X Versions</ons-list-header>
+
+        <ons-list-item modifier="chevron">Mavericks</ons-list-item>
+        <ons-list-item modifier="chevron">Mountain Lion</ons-list-item>
+        <ons-list-item modifier="chevron">Lion</ons-list-item>
+        <ons-list-item modifier="chevron">SnowLeopard</ons-list-item>
+    -->
+
+      
+ 
+  </body>
+</html>
